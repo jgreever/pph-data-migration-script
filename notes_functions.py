@@ -18,19 +18,20 @@ def getNotesColumns():
 
     return notes_columns
 
+
 def get_merging_dictionary():
     mergDict = {
         'Id': 'id',
-	    'IsDeleted':'isdeleted',
-    #    'ParentId':'ParentId',
-        'AccountId':'accountid',
+	    'IsDeleted':'is_deleted',
+        'ParentId':'contact_id',
+        'AccountId':'account_id',
         'Title':'title',
     #    'IsPrivate':'IsPrivate',
         'Body':'body',	
     #    'OwnerId':'ownerid',
-        'CreatedDate':'createddate',
+        'CreatedDate':'created_date',
     #    'CreatedById':'CreatedById',
-        'LastModifiedDate':'lastmodifieddate',
+        'LastModifiedDate':'last_modified_date',
     #    'LastModifiedById':'LastModifiedById',
     #    'SystemModstamp':'SystemModstamp'
     }
