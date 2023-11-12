@@ -244,8 +244,8 @@ def get_merging_dictionary():
 #    'DLRS_First_Purchased_Event_Date__c',
 #    'PatronTicket__LatestAccountMembership__c',
 #    'PatronTicket__LatestMembershipExpiration__c',
-    'Amount_Donated_FY23__c': 'amount_Donated_FY23',
-    'Amount_Donated_FY24__c': 'amount_Donated_FY24',
+    'Amount_Donated_FY23__c': 'amount_donated_FY23',
+    'Amount_Donated_FY24__c': 'amount_donated_FY24',
     }
        
     return merging_dictionary
