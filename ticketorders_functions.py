@@ -1,3 +1,5 @@
+import hashlib
+
 def getTicketOrderColumns():
     columns = [
         'Id',
@@ -200,6 +202,14 @@ def get_merging_dictionary():
     return dictionary
 
 def getTicketOrdersNewColumnOrder(df):
+
+    # Hash Salesforce ID columns first
+    id_columns = ['ticket_order_id', 'account_id', 'contact_id']
+
+    for col in id_columns:
+        if col in df.columns:
+            df[col] = df[col].apply(lambda x: hash_to_int(x))
+
     new_column_order = [
         # Key Identifiers
         'ticket_order_id',
@@ -263,8 +273,10 @@ def getTicketOrdersNewColumnOrder(df):
         'last_modified_date'
     ]
 
-    return df[new_column_order]
+    # Reorder the DataFrame columns
+    df = df[new_column_order]
 
+    return df
 
 
 def getTicketOrderItemsColumns():
@@ -382,9 +394,18 @@ def getTicketOrderItemsDictionary():
     return dictionary
 
 def getTicketOrderItemsNewColumnOrder(df):
+
+    # Salesforce ID columns that need to be hashed
+    id_columns = ['ticket_order_item_id', 'ticket_order_id', 'account_id', 'contact_id',
+                  'event_id', 'subscription_order_item_id', 'price_level_id', 'discount_code_id']
+
+    # Hashing the specified columns
+    for col in id_columns:
+        if col in df.columns:
+            df[col] = df[col].apply(lambda x: hash_to_int(x))
+
     new_column_order = [
         # Key Identifiers
-        'ticket_order_item_name',
         'ticket_order_item_id',
         'ticket_order_id',
         'account_id',
@@ -398,6 +419,7 @@ def getTicketOrderItemsNewColumnOrder(df):
         'event_id',
         'subscription_order_item_id',
         'price_level_id',
+        'ticket_order_item_name',
         'quantity',
         'ticket_price',
         'unit_price',
@@ -420,5 +442,17 @@ def getTicketOrderItemsNewColumnOrder(df):
         'entry_date'
     ]
 
-    # Reorder the DataFrame columns
-    return df[new_column_order]
+    # Reordering the DataFrame columns according to new_column_order
+    df = df[new_column_order]
+
+    return df
+
+def hash_to_int(column_value, mod_value=2**32):
+    # Create a SHA-256 hash of the column value
+    hash_object = hashlib.sha256(str(column_value).encode())
+    # Convert the hash to a hexadecimal string
+    hex_hash = hash_object.hexdigest()
+    # Convert the hexadecimal string to an integer and modulate it
+    int_hash = int(hex_hash, 16) % mod_value
+    return int_hash
+

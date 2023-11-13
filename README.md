@@ -11,6 +11,7 @@ This script is used to migrate the data from the Salesforce DB that PPH currentl
 3. Edit the file_migration.py file to match any new files that you have created. (This will be updated in more detail later)
 4. Run the script: `python file_migration.py`
 
+
 ## Output
 
 All CSV's that you have migrated will go in the `Gold_tables` folder when finished.
@@ -18,3 +19,4 @@ All CSV's that you have migrated will go in the `Gold_tables` folder when finish
 The `Silver_tables` folder will contain CSV's that are about ready to be migrated
 
 The `Bronse_tables` folder contains the original CSV files from the Salesforce database export.
+

@@ -1,3 +1,5 @@
+import hashlib
+
 def getPaymentTransactionsColumns():
     columns = [
         'Id',
@@ -393,6 +395,14 @@ def get_merging_dictionary():
 
 
 def organize_columns(df):
+    # Hash Salesforce ID columns first
+    id_columns = ['transaction_id', 'patron_transaction_id', 'ticket_order_id',
+                  'ticket_order_item_id', 'capture_transaction_id', 'item_id']
+
+    for col in id_columns:
+        if col in df.columns:
+            df[col] = df[col].apply(lambda x: hash_to_int(x))
+
     organized_columns = [
         # Transaction Identifiers
         'transaction_id',
@@ -462,4 +472,16 @@ def organize_columns(df):
         # Tendered Amount
         'amount_tendered'
     ]
-    return df[organized_columns]
+
+    df = df[organized_columns]
+
+    return df
+
+def hash_to_int(column_value, mod_value=2**32):
+    # Create a SHA-256 hash of the column value
+    hash_object = hashlib.sha256(str(column_value).encode())
+    # Convert the hash to a hexadecimal string
+    hex_hash = hash_object.hexdigest()
+    # Convert the hexadecimal string to an integer and modulate it
+    int_hash = int(hex_hash, 16) % mod_value
+    return int_hash
