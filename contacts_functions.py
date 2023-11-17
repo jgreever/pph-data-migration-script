@@ -1,3 +1,5 @@
+import hashlib
+
 def getContactColums():
     contacts_columns = ['Id',
     'IsDeleted',
@@ -103,7 +105,7 @@ def getContactColums():
 
 def get_merging_dictionary():
     mergDict = {
-    'Id': 'id',
+    'Id': 'contact_id',
     'IsDeleted': 'is_deleted',
 #    'MasterRecordId': None,
 	'AccountId': 'account_id',	
@@ -203,3 +205,58 @@ def get_merging_dictionary():
     'Email_List_Notes__c': 'email_list_notes'
     }
     return mergDict
+
+def GetNewColumnsOrder(df):
+
+    # Apply hashing to the 'id' column
+    df['contact_id'] = df['contact_id'].apply(lambda x: hash_to_int(x))
+    df['account_id'] = df['account_id'].apply(lambda x: hash_to_int(x))
+    df['created_by_id'] = df['created_by_id'].apply(lambda x: hash_to_int(x))
+    df['last_modified_by_id'] = df['last_modified_by_id'].apply(lambda x: hash_to_int(x))
+
+    # Define the new column order with logical grouping and comments for readability
+    new_column_order = [
+        # Personal Information
+        'contact_id', 'account_id', 'is_deleted', 'salutation', 'first_name', 'middle_name', 'last_name', 'suffix',
+        'pronouns', 'gender_identity', 'birth_date',
+
+        # Contact Information
+        'email', 'other_email', 'phone', 'mobile_phone', 'home_phone', 'other_phone', 'fax',
+
+        # Address Information
+        'mailing_street', 'mailing_city', 'mailing_state', 'mailing_postal_code', 'mailing_country',
+        'other_street', 'other_city', 'other_state', 'other_postal_code', 'other_country',
+
+        # Professional Information
+        'title', 'department', 'company',
+
+        # Donation and Volunteer Information
+        'donate_date_entered', 'donor_recognition', 'formal_salutation', 'informal_salutation',
+        'informal_address_name', 'volunteer_interests',
+
+        # Communication Preferences
+        'has_opted_out_of_email', 'has_opted_out_of_fax', 'do_not_call', 'do_not_mail', 'email_status',
+        'email_list_notes', 'email_lists',
+
+        # System Information
+        'created_date', 'created_by_id', 'last_modified_date', 'last_modified_by_id',
+        'system_modstamp', 'las_tactivity_date', 'email_bounce_reason', 'email_bounce_date',
+
+        # Membership and Participation
+        'current_season_subscriber', 'board_member', 'seating_accomodation', 'reserved_seating',
+        'attending_next_dinner', 'chocolate_and_card', 'legacy_membership_circle', 'contact_origin'
+    ]
+
+    # Reorder the DataFrame columns
+    df = df[new_column_order]
+
+    return df
+
+def hash_to_int(column_value, mod_value=2**32):
+    # Create a SHA-256 hash of the column value
+    hash_object = hashlib.sha256(str(column_value).encode())
+    # Convert the hash to a hexadecimal string
+    hex_hash = hash_object.hexdigest()
+    # Convert the hexadecimal string to an integer and modulate it
+    int_hash = int(hex_hash, 16) % mod_value
+    return int_hash

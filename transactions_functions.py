@@ -395,6 +395,7 @@ def get_merging_dictionary():
 
 
 def organize_columns(df):
+
     # Hash Salesforce ID columns first
     id_columns = ['transaction_id', 'patron_transaction_id', 'ticket_order_id',
                   'ticket_order_item_id', 'capture_transaction_id', 'item_id']

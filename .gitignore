@@ -5,6 +5,7 @@
 .DS_*
 .vscode
 .idea
+*.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

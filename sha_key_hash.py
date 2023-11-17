@@ -3,18 +3,18 @@ import hashlib
 
 #Dictionary of the tables and their corresponding column ids to hash.
 file_hash_dictionary = {
-    'Accounts.csv':         ['id', 'last_modified_by_id'],
-    'Contacts.csv':         ['id', 'account_id', 'created_by_id', 'last_modified_by_id'],
-    'Events.csv':           ['ticketable_event_id', 'owner_id'],
-    'Notes.csv':            ['id', 'contact_id', 'account_id'],
-    'TicketOrderItems.csv': ['ticket_order_item_name', 'ticket_order_item_id','ticket_order_id', 
-                            'account_id', 'contact_id', 'event_id',
-                            'price_level_id' , 'discount_code_id'],
-    'TicketOrders.csv':     ['ticket_order_id', 'account_id', 'contact_id'],
-    'Transactions.csv':     ['transaction_id', 'patron_transaction_id', 'ticket_order_id', 
-                             'item_id', 'ticket_order_item_id'],
-    'Opportunity.csv':      ['id', 'accountid', 'contactid', 'campaign_id', 'owner_id', 'donor_id'],
-    'Record_type.csv':      ['id']
+    #'Accounts.csv':         ['id', 'last_modified_by_id'],
+    'Contacts.csv':         ['contact_id', 'account_id', 'created_by_id', 'last_modified_by_id'],
+    #'Events.csv':           ['event_id', 'owner_id'],
+    #'Notes.csv':            ['id', 'contact_id', 'account_id'],
+    #'TicketOrderItems.csv': ['ticket_order_item_name', 'ticket_order_item_id','ticket_order_id',
+    #                        'account_id', 'contact_id', 'event_id',
+    #                        'price_level_id' , 'discount_code_id'],
+    #'TicketOrders.csv':     ['ticket_order_id', 'account_id', 'contact_id'],
+    #'Transactions.csv':     ['transaction_id', 'patron_transaction_id', 'ticket_order_id',
+    #                         'item_id', 'ticket_order_item_id'],
+    #'Opportunity.csv':      ['id', 'accountid', 'contactid', 'campaign_id', 'owner_id', 'donor_id'],
+    #'Record_type.csv':      ['id']
 }
 
 def hash_table_ids(file_hash_dictionary):

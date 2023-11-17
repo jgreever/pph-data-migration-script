@@ -1,3 +1,4 @@
+import hashlib
 
 def getAccountsColumns():
     header_columns = ['Id',
@@ -126,7 +127,7 @@ def getAccountsColumns():
 
 def get_merging_dictionary():
     merging_dictionary = {
-    'Id': 'id',
+    'Id': 'account_id',
     'IsDeleted': 'is_deleted',
 #    'MasterRecordId': None,
     'Name': 'name',
@@ -249,3 +250,68 @@ def get_merging_dictionary():
     }
        
     return merging_dictionary
+
+def GetNewColumnsOrder(df):
+
+    # Apply hashing to the 'id' column
+    df['account_id'] = df['account_id'].apply(lambda x: hash_to_int(x))
+    df['last_modified_by_id'] = df['last_modified_by_id'].apply(lambda x: hash_to_int(x))
+
+    # Define the new column order with logical grouping and comments for readability
+    new_column_order = [
+        # Basic Identifiers
+        'account_id', 'name', 'type',
+
+        # Contact Information
+        'phone', 'fax', 'website',
+        'donor_email',
+
+        # Shipping Address
+        'shipping_street', 'shipping_city', 'shipping_state',
+        'shipping_postal_code', 'shipping_country',
+
+        # Donation Information
+        'first_donation_date', 'last_donation_date',
+        'lifetime_donation_history_amount', 'lifetime_donation_number',
+        'this_year_donation_history_amount', 'amount_donated_this_fiscal_year',
+        'last_donation_amount', 'first_donation_amount',
+        'largest_donation_date',
+
+        # Yearly Donation Details
+        'amount_donated_CY18', 'amount_donated_CY19', 'amount_donated_CY20', 'amount_donated_CY21',
+        'amount_donated_FY18', 'amount_donated_FY19', 'amount_donated_FY20', 'amount_donated_FY21',
+        'amount_donated_FY22', 'amount_donated_FY23', 'amount_donated_FY24',
+        'amount_donated_last_fiscal_year',
+
+        # Communication Preferences
+        'do_not_call', 'do_not_mail', 'has_opted_out_of_email',
+
+        # Personalization
+        'formal_salutation', 'informal_salutation', 'informal_address_name',
+        'attn',
+
+        # Patron Specifics
+        'board_member', 'show_sponsor', 'seating_accomodation', 'sort_name',
+        'grant_size', 'will_give_to', 'donor_recognition',
+
+        # System-Related Fields
+        'is_deleted', 'created_date', 'last_modified_date', 'last_modified_by_id', 'last_activity_date',
+        'lifetime_donations_included_pledged', 'first_donation_date_incl_pledged',
+
+        # Ticketing Information
+        'lifetime_single_ticket_amount', 'lifetime_subscription_amount'
+    ]
+
+    # Reorder the DataFrame columns
+    df = df[new_column_order]
+
+    return df
+
+def hash_to_int(column_value, mod_value=2**32):
+    # Create a SHA-256 hash of the column value
+    hash_object = hashlib.sha256(str(column_value).encode())
+    # Convert the hash to a hexadecimal string
+    hex_hash = hash_object.hexdigest()
+    # Convert the hexadecimal string to an integer and modulate it
+    int_hash = int(hex_hash, 16) % mod_value
+    return int_hash
