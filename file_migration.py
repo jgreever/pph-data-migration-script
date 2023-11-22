@@ -162,18 +162,24 @@ def process_development_tables():
     df_ticketorders = read_csv_file('Development_tables/TicketOrders.csv')
     save_to_yaml(df_ticketorders, 'Development_tables/TicketOrders.yaml')
 
-def main():
-    process_accounts()
-    process_contacts()
-    process_notes()
-    process_ticket_order_items()
-    process_ticket_orders()
-    process_transactions()
-    process_events()
-    process_opportunities()
-    process_recordtypes()
+    # Processing Notes
+    df_notes = read_csv_file('Development_tables/Notes.csv')
+    save_to_yaml(df_notes, 'Development_tables/Notes.yaml')
 
-    #process_development_tables()
+def main():
+
+    process_development_tables()
+
+    #process_accounts()
+    #process_contacts()
+    #process_notes()
+    #process_ticket_order_items()
+    #process_ticket_orders()
+    #process_transactions()
+    #process_events()
+    #process_opportunities()
+    #process_recordtypes()
+
 
 if __name__ == "__main__":
     main()
