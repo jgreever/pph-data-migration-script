@@ -1,20 +1,27 @@
+#This file uses SHA256 to hash all of the string IDs from the Salesforce database containing the Portland Playhouse data.
+#A file hash dictionary is used to iterate through each of the column ids to hash. This is done
+#in order to convert the Salesforce IDs to simpler string datatypes while maitaining the join relationships of the
+#original data.
+
 import pandas as pd
 import hashlib
 
 #Dictionary of the tables and their corresponding column ids to hash.
+
+
 file_hash_dictionary = {
-    #'Accounts.csv':         ['id', 'last_modified_by_id'],
+    'Accounts.csv':         ['id', 'last_modified_by_id'],
     'Contacts.csv':         ['contact_id', 'account_id', 'created_by_id', 'last_modified_by_id'],
-    #'Events.csv':           ['event_id', 'owner_id'],
-    #'Notes.csv':            ['id', 'contact_id', 'account_id'],
-    #'TicketOrderItems.csv': ['ticket_order_item_name', 'ticket_order_item_id','ticket_order_id',
-    #                        'account_id', 'contact_id', 'event_id',
-    #                        'price_level_id' , 'discount_code_id'],
-    #'TicketOrders.csv':     ['ticket_order_id', 'account_id', 'contact_id'],
-    #'Transactions.csv':     ['transaction_id', 'patron_transaction_id', 'ticket_order_id',
-    #                         'item_id', 'ticket_order_item_id'],
-    #'Opportunity.csv':      ['id', 'accountid', 'contactid', 'campaign_id', 'owner_id', 'donor_id'],
-    #'Record_type.csv':      ['id']
+    'Events.csv':           ['event_id', 'owner_id'],
+    'Notes.csv':            ['id', 'contact_id', 'account_id'],
+    'TicketOrderItems.csv': ['ticket_order_item_name', 'ticket_order_item_id','ticket_order_id',
+                            'account_id', 'contact_id', 'event_id',
+                            'price_level_id' , 'discount_code_id'],
+    'TicketOrders.csv':     ['ticket_order_id', 'account_id', 'contact_id'],
+    'Transactions.csv':     ['transaction_id', 'patron_transaction_id', 'ticket_order_id',
+                             'item_id', 'ticket_order_item_id'],
+    'Opportunity.csv':      ['id', 'accountid', 'contactid', 'campaign_id', 'owner_id', 'donor_id'],
+    'Record_type.csv':      ['id']
 }
 
 def hash_table_ids(file_hash_dictionary):

@@ -1,7 +1,7 @@
 # This Python script is for munging and migrating the PPH data from the Salesforce .csv dump
 # into the PPH application server. The original csvs are read into pandas data frames. Then they
 # each go through their respective filtering via dictionarys in the functions files. The new
-# data frames are then contructed in the for loops and saved to the munged database folder.
+# data frames are then constructed in the for loops and saved to the munged database folder.
 
 import yaml
 import pandas as pd
